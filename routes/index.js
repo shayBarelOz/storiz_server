@@ -61,4 +61,8 @@ router.post('/delete', function(req, res, next) {
     res.redirect('/');
 });
 
+// ./routes/index.js
+exports.index = function(req, res){
+    res.render('index', { title: 'ejs' });};
+
 module.exports = router;
