@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var PythonShell = require('python-shell');
 
 //fixme: need to be fixed to working on the cloud.
-mongoose.connect('mongodb://127.0.0.1:27017/db');
+//mongoose.connect('mongodb://127.0.0.1:27017/db');
 //mongoose.connect('mongodb://localstoriz:prime199@ds147497.mlab.com:47497/localstoriz');
 var Schema = mongoose.Schema;
 
