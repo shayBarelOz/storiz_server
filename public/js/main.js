@@ -208,19 +208,75 @@ jQuery(function($) {'use strict';
 		});
 	});
 
+
+    function AjaxCaller(){
+        var xmlhttp=false;
+        try{
+            xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+        }catch(e){
+            try{
+                xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            }catch(E){
+                xmlhttp = false;
+            }
+        }
+
+        if(!xmlhttp && typeof XMLHttpRequest!='undefined'){
+            xmlhttp = new XMLHttpRequest();
+        }
+        return xmlhttp;
+    }
+
 	// Contact form
 	var form = $('#main-contact-form');
 	form.submit(function(event){
 		event.preventDefault();
 		var form_status = $('<div class="form_status"></div>');
-		$.ajax({
-			url: $(this).attr('action'),
-			beforeSend: function(){
-				form.prepend( form_status.html('<p><i class="fa fa-spinner fa-spin"></i> Email is sending...</p>').fadeIn() );
-			}
-		}).done(function(data){
-			form_status.html('<p class="text-success">Thank you for contact us. As early as possible  we will contact you</p>').delay(3000).fadeOut();
-		});
+		// $.ajax({
+		// 	url: $(this).attr('action'),
+		// 	beforeSend: function(){
+		// 		form.prepend( form_status.html('<p><i class="fa fa-spinner fa-spin"></i> Email is being sent...</p>').fadeIn() );
+		// 	}
+		// }).done(function(data){
+		// 	form_status.html('<p class="text-success">Thank you for contact us. We will contact you as early as possible  </p>').delay(3000).fadeOut();
+		// });
+
+        // data: { name: name,subject:subject ,email:email,message:message },
+        // dataType: 'json',
+
+
+
+		var name= document.getElementById("name_group").value;
+        var email= document.getElementById("email_group").value;
+        var message= document.getElementById("message_group").value;
+        var subject= document.getElementById("subject_group").value;
+
+
+        // var ajax=AjaxCaller();
+        // ajax.open("GET", "sendemail.php", true);
+        // ajax.onreadystatechange=function(){
+        //     if(ajax.readyState==4){
+        //         if(ajax.status==200){
+        //         	console.log("i'm here");
+        //             // div.innerHTML = ajax.responseText;
+        //         }
+        //     }
+        // };
+        // ajax.send(null);
+
+        $.ajax({
+            type: 'POST',
+            cache: false,
+            url: '/sendemail',
+            datatype:"json",
+            data: {'name':name,'email':email,'message':message,'subject':subject},
+            beforeSend: function(){
+                form.prepend( form_status.html('<p><i class="fa fa-spinner fa-spin"></i> Email is being sent...</p>').fadeIn() );
+            },
+            success: function(data) {
+				form_status.html('<p class="text-success">Thank you for contact us. We will contact you as early as possible  </p>').delay(3000).fadeOut();
+        }
+        });
 	});
 
 	//Pretty Photo
@@ -244,6 +300,8 @@ jQuery(function($) {'use strict';
 			map: map
 		});
 	}
+
+
 	google.maps.event.addDomListener(window, 'load', initialize_map);
 
 });

@@ -1,18 +1,20 @@
-<?php
-$name       = @trim(stripslashes($_POST['name'])); 
-$from       = @trim(stripslashes($_POST['email'])); 
-$subject    = @trim(stripslashes($_POST['subject'])); 
-$message    = @trim(stripslashes($_POST['message'])); 
-$to   		= 'email@email.com';//replace with your email
+#!/usr/bin/php
+<?php print "Well, here we are...  Now what?\n";
 
-$headers   = array();
-$headers[] = "MIME-Version: 1.0";
-$headers[] = "Content-type: text/plain; charset=iso-8859-1";
-$headers[] = "From: {$name} <{$from}>";
-$headers[] = "Reply-To: <{$from}>";
-$headers[] = "Subject: {$subject}";
-$headers[] = "X-Mailer: PHP/".phpversion();
+ $name       = 'aaa';
+ $from       = 'bbb';
+ $subject    = 'ccc';
+ $message    = 'ddd';
+ $to   		= 'local.storiz@gmail.com';
+
+	$headers = "From: $from \r\n";
+	$headers .= "Reply-To: $from \r\n";
+	$headers .= "Return-Path: $from\r\n";
+	$headers .= "X-Mailer: PHP \r\n";
+
+
 
 mail($to, $subject, $message, $headers);
 
-die;
+
+ ?>
